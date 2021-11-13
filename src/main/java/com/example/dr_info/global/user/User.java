@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "users")
+@Table(name = "DR_users",schema = "dbo")
 @SequenceGenerator(name = "usersSeq", sequenceName = "users_id_seq", allocationSize = 1)
 public class User {
 
@@ -21,20 +21,20 @@ public class User {
 	@GeneratedValue(generator = "usersSeq", strategy = GenerationType.SEQUENCE)
 	private Long id;
 
-	@Column(name = "user_name")
+	@Column(name = "username")
 	private String userName;
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	@Column(name = "password")
+	@Column(name = "pass")
 	private String password;
 
-	@Column(name = "first_name")
+	@Column(name = "firstname")
 	private String firstName;
 
-	@Column(name = "last_name")
+	@Column(name = "lastname")
 	private String lastName;
 
-	@Column(name = "personal_no")
+	@Column(name = "personalno")
 	private String personalNo;
 
 	@Column(name = "active")
