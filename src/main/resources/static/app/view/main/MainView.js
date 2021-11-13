@@ -6,12 +6,13 @@ Ext.define('dr.view.main.MainView', {
 		type: 'vbox',
 	},
 	items: [{
-		xtype: 'panel',
-		flex: 1,
-		title: 'panel1'
-	},{
-		xtype: 'panel',
-		flex: 1,
-		title: 'panel2'
+		xtype: 'tabpanel',
+		items: [{
+			xtype: 'panel',
+			title: 'panel1',
+		},{
+			xtype: 'panel',
+			title: 'panel2',
+		}]
 	}]
 })
