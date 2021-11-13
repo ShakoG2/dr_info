@@ -1,18 +1,12 @@
 Ext.define('dr.view.main.MainView', {
 	xtype: 'mainView',
-	extend: 'Ext.panel.Panel',
-	title: 'ობიექტები',
-	layout: {
-		type: 'vbox',
-	},
+	extend: 'Ext.tab.Panel',
+	title: '<div style="text-align:center;"><span style="font-size: 12px">Dr Info</span></div>',
+	tabPosition: 'left',
+	tabRotation:0,
 	items: [{
-		xtype: 'tabpanel',
-		items: [{
-			xtype: 'panel',
-			title: 'panel1',
-		},{
-			xtype: 'panel',
-			title: 'panel2',
-		}]
+		xtype: 'panel',
+		title: 'ობიექტები',
+		iconCls:'fa fa-table'
 	}]
 })
