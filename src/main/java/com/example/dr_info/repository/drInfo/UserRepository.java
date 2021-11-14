@@ -1,6 +1,6 @@
-package com.example.dr_info.global.user.repository;
+package com.example.dr_info.repository.drInfo;
 
-import com.example.dr_info.global.user.User;
+import com.example.dr_info.model.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

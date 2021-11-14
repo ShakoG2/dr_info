@@ -1,11 +1,10 @@
 package com.example.dr_info.global.user.service;
 
-import com.example.dr_info.global.user.User;
-import com.example.dr_info.global.user.UserDetailsImpl;
-import com.example.dr_info.global.user.repository.UserPermissionRepository;
-import com.example.dr_info.global.user.repository.UserRepository;
+import com.example.dr_info.model.user.User;
+import com.example.dr_info.repository.drInfo.UserRepository;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,7 +20,7 @@ import java.util.stream.Collectors;
 public class UserService implements UserDetailsService {
 
 	private final UserRepository userRepository;
-	private final UserPermissionRepository userPermissionRepository;
+	//private final UserPermissionRepository userPermissionRepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

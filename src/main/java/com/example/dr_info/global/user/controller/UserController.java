@@ -1,7 +1,7 @@
 package com.example.dr_info.global.user.controller;
 
-import com.example.dr_info.global.user.User;
-import com.example.dr_info.global.user.UserDetailsImpl;
+import com.example.dr_info.model.user.User;
+import com.example.dr_info.global.user.service.UserDetailsImpl;
 import com.example.dr_info.global.user.UserSummary;
 import com.example.dr_info.global.user.service.UserService;
 import javassist.NotFoundException;
