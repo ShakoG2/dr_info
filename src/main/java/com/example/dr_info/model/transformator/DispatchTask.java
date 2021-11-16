@@ -15,24 +15,22 @@ import java.util.Date;
 @Getter
 @Setter
 @Table(schema = "dbo",name = "DISCONN_HISTORY")
-public class ObjectCategory {
+public class DispatchTask {
 
 	@Id
 	private BigDecimal id;
 
-	@Column(name = "TASK_ID")
-	private BigDecimal taskId;
+	@Column(name = "DISCONN_ACTUAL_DATE")
+	private Date disconnActualDate;
 
-	@Column(name = "COMP_CUST_ID")
-	private BigDecimal compCustId;
+	@Column(name = "DISCONN_ACTUAL_TIME")
+	private String disconnActualTime;
+
+	@Column(name = "RECONN_ACTUAL_DATE")
+	private Date reconnActualDate;
+
+	@Column(name = "RECONN_ACTUAL_TIME")
+	private String reconnActualTime;
 
 
-	@Column(name = "CUST_NUMBER")
-	private String custNumber;
-
-	@Column(name = "INSERT_DATE")
-	private Date insertDate;
-
-	@Column(name = "categ_key")
-	private String category;
 }

@@ -18,6 +18,6 @@ public class CategoryController {
 
 	@GetMapping
 	public List< ObjectCategory> get() {
-		return objectCategoryService.get();
+		return objectCategoryService.getPreviousMonthData();
 	}
 }
