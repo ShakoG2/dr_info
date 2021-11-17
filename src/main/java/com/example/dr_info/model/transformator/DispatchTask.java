@@ -9,25 +9,26 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
 @Getter
 @Setter
-@Table(schema = "dbo",name = "DISCONN_HISTORY")
+@Table(schema = "dbo",name = "DISPATCH_TASK")
 public class DispatchTask {
 
 	@Id
 	private BigDecimal id;
 
 	@Column(name = "DISCONN_ACTUAL_DATE")
-	private Date disconnActualDate;
+	private Timestamp disconnActualDate;
 
 	@Column(name = "DISCONN_ACTUAL_TIME")
 	private String disconnActualTime;
 
 	@Column(name = "RECONN_ACTUAL_DATE")
-	private Date reconnActualDate;
+	private Timestamp reconnActualDate;
 
 	@Column(name = "RECONN_ACTUAL_TIME")
 	private String reconnActualTime;

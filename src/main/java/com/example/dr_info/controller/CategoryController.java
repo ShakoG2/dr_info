@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("category")
 @AllArgsConstructor
@@ -17,7 +18,7 @@ public class CategoryController {
 	private final ObjectCategoryService objectCategoryService;
 
 	@GetMapping
-	public List< ObjectCategory> get() {
+	public List<ObjectCategory> get() {
 		return objectCategoryService.getPreviousMonthData();
 	}
 }

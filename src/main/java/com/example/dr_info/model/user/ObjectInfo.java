@@ -10,12 +10,12 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
-@Table(name = "object_infos",schema = "dbo")
+@Table(name = "object_infos", schema = "dbo")
 @SequenceGenerator(name = "objectInfoSeq", sequenceName = "object_info_id_seq", allocationSize = 1)
 public class ObjectInfo {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator ="objectInfoSeq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "objectInfoSeq")
 	private Long id;
 
 	@Column(name = "task_id")

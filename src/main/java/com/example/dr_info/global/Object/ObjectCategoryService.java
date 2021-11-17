@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -24,9 +25,9 @@ public class ObjectCategoryService {
 	private final DispatchTaskRepository dispatchTaskRepository;
 	private final ObjectInfoRepository objectInfoRepository;
 
-	public List<ObjectCategory> get() {
-		List<ObjectCategory> categories = objectCategoryRepository.findAllByCustNumber("5710011060");
-		return categories;
+	public DispatchTask get() {
+		DispatchTask task = dispatchTaskRepository.getTaskById(new BigDecimal("625828"));
+		return task;
 	}
 
 	public List<ObjectCategory> getPreviousMonthData() {
@@ -39,27 +40,24 @@ public class ObjectCategoryService {
 		Date lastDateOfPreviousMonth = aCalendar.getTime();
 		List<ObjectCategory> transformators = objectCategoryRepository.getPreviousMonthData("customer.category.transformer", firstDateOfPreviousMonth, lastDateOfPreviousMonth);
 
-//		transformators.forEach(t -> {
-//			ObjectInfo objectInfo = new ObjectInfo();
-//			DispatchTask task = dispatchTaskRepository.getById(t.getTaskId());
-//			objectInfo.setCustNumber(t.getCustNumber());
-//			objectInfo.setDisconnectedDate(task.getDisconnActualDate());
-//			objectInfo.setDisconnectedTime(task.getDisconnActualTime());
-//			objectInfo.setReconnectedDate(task.getReconnActualDate());
-//			objectInfo.setReconnectedTime(task.getReconnActualTime());
-//			objectInfo.setTaskId(task.getId().longValue());
-//			try {
-//				objectInfo.setTurnOffDuration(diffTime(task.getDisconnActualTime(),task.getReconnActualTime()).toString());
-//			} catch (ParseException e) {
-//				e.printStackTrace();
-//			}
-//			objectInfoRepository.save(objectInfo);
-//		});
+		transformators.forEach(t -> {
+			ObjectInfo objectInfo = new ObjectInfo();
+			DispatchTask task = dispatchTaskRepository.getTaskById(new BigDecimal(String.valueOf(t.getTaskId())));
+			if (task != null) {
+				objectInfo.setCustNumber(t.getCustNumber());
+				objectInfo.setDisconnectedDate(task.getDisconnActualDate());
+				objectInfo.setDisconnectedTime(task.getDisconnActualTime());
+				objectInfo.setReconnectedDate(task.getReconnActualDate());
+				objectInfo.setReconnectedTime(task.getReconnActualTime());
+				objectInfo.setTaskId(task.getId().longValue());
+				objectInfoRepository.save(objectInfo);
+			}
+		});
 
 		return transformators;
 	}
 
-	public Long diffTime(String t1,String t2) throws ParseException {
+	public Long diffTime(String t1, String t2) throws ParseException {
 		SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
 		Date date1 = format.parse(t1);
 		Date date2 = format.parse(t2);
