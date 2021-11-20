@@ -3,19 +3,31 @@ package com.example.dr_info.global.Object;
 import com.example.dr_info.model.transformator.DispatchTask;
 import com.example.dr_info.model.transformator.ObjectCategory;
 import com.example.dr_info.model.user.ObjectInfo;
+import com.example.dr_info.model.user.ObjectInfo_;
 import com.example.dr_info.repository.dispatch.DispatchTaskRepository;
 import com.example.dr_info.repository.dispatch.ObjectCategoryRepository;
 import com.example.dr_info.repository.drInfo.ObjectInfoRepository;
+import io.swagger.models.auth.In;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -25,43 +37,44 @@ public class ObjectCategoryService {
 	private final DispatchTaskRepository dispatchTaskRepository;
 	private final ObjectInfoRepository objectInfoRepository;
 
-	public DispatchTask get() {
-		DispatchTask task = dispatchTaskRepository.getTaskById(new BigDecimal("625828"));
-		return task;
+
+	public String roundHour(String hour) {
+
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime localDateTime = LocalDateTime.parse(hour, dtf);
+
+
+		int minutes = localDateTime.getMinute();
+		if (minutes >= 30) {
+			localDateTime = localDateTime.plusHours(1);
+		}
+
+		localDateTime = localDateTime.truncatedTo(ChronoUnit.HOURS);
+
+		return dtf.format(localDateTime);
 	}
 
-	public List<ObjectCategory> getPreviousMonthData() {
-		Calendar aCalendar = Calendar.getInstance();
+	public Page<ObjectInfo> search(Long taskId, String custNumber, Pageable pageable) {
 
-		aCalendar.add(Calendar.MONTH, -1);
-		aCalendar.set(Calendar.DATE, 1);
-		Date firstDateOfPreviousMonth = aCalendar.getTime();
-		aCalendar.set(Calendar.DATE, aCalendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-		Date lastDateOfPreviousMonth = aCalendar.getTime();
-		List<ObjectCategory> transformators = objectCategoryRepository.getPreviousMonthData("customer.category.transformer", firstDateOfPreviousMonth, lastDateOfPreviousMonth);
+		if (StringUtils.hasText(custNumber) && taskId != null) {
+			return objectInfoRepository.findAllByTaskIdAndCustNumberAndActiveTrue(taskId, custNumber, pageable);
+		}
 
-		transformators.forEach(t -> {
-			ObjectInfo objectInfo = new ObjectInfo();
-			DispatchTask task = dispatchTaskRepository.getTaskById(new BigDecimal(String.valueOf(t.getTaskId())));
-			if (task != null) {
-				objectInfo.setCustNumber(t.getCustNumber());
-				objectInfo.setDisconnectedDate(task.getDisconnActualDate());
-				objectInfo.setDisconnectedTime(task.getDisconnActualTime());
-				objectInfo.setReconnectedDate(task.getReconnActualDate());
-				objectInfo.setReconnectedTime(task.getReconnActualTime());
-				objectInfo.setTaskId(task.getId().longValue());
-				objectInfoRepository.save(objectInfo);
-			}
-		});
+		if (StringUtils.hasText(custNumber))
+			return objectInfoRepository.findAllByCustNumberAndActiveTrue(custNumber, pageable).map(this::calculateDuration);
 
-		return transformators;
+		if (taskId != null)
+			return objectInfoRepository.findAllByTaskIdAndActiveTrue(taskId, pageable).map(this::calculateDuration);
+
+		return objectInfoRepository.findAllByActiveTrue(pageable).map(this::calculateDuration);
 	}
 
-	public Long diffTime(String t1, String t2) throws ParseException {
-		SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
-		Date date1 = format.parse(t1);
-		Date date2 = format.parse(t2);
-		return date2.getTime() - date1.getTime();
+	public ObjectInfo calculateDuration(ObjectInfo objectInfo) {
+		if (!Objects.equals(objectInfo.getTurnOffDuration(), "0") &&
+				objectInfo.getTurnOffDuration() != null) {
+			int dur = Integer.parseInt(objectInfo.getTurnOffDuration()) / 60;
+			objectInfo.setTurnOffDuration(Integer.toString(dur));
+		}
+		return objectInfo;
 	}
-
 }

@@ -38,4 +38,7 @@ public class ObjectInfo {
 
 	@Column(name = "turn_off_duration")
 	private String turnOffDuration;
+
+	@Column(name = "active")
+	private Boolean active;
 }
