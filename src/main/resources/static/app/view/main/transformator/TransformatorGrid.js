@@ -38,6 +38,9 @@ Ext.define('dr.view.main.transformator.TransformatorGrid', {
 		dataIndex: 'turnOffDuration',
 		flex: 1
 	}],
+	listeners:{
+		itemdblclick:'showTransformerSubscribers'
+	},
 	bbar: {
 		xtype: 'pagingtoolbar',
 		displayInfo: true

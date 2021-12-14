@@ -1,8 +1,6 @@
 package com.example.dr_info.global.user;
 
-import com.example.dr_info.global.user.Authority;
-import com.example.dr_info.global.user.Role;
-import com.example.dr_info.model.user.User;
+import com.example.dr_info.model.drInfo.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;

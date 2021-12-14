@@ -1,6 +1,6 @@
 package com.example.dr_info.global.user.service;
 
-import com.example.dr_info.model.user.User;
+import com.example.dr_info.model.drInfo.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;

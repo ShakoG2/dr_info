@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.Date;
 
 @Entity
 @Getter

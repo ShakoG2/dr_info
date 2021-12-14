@@ -45,7 +45,7 @@ public class DrConf {
 	) {
 		return
 				builder.dataSource(sportDataSource)
-						.packages("com.example.dr_info.model.user")
+						.packages("com.example.dr_info.model.drInfo")
 						.persistenceUnit("drInfo")
 						.build();
 	}

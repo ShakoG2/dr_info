@@ -12,4 +12,5 @@ public interface DispatchTaskRepository extends JpaRepository<DispatchTask,BigDe
 
 	@Query("SELECT o FROM DispatchTask o WHERE o.id = :id")
 	DispatchTask getTaskById(BigDecimal id);
+
 }

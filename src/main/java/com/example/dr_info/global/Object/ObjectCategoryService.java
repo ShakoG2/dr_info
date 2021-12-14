@@ -1,31 +1,19 @@
 package com.example.dr_info.global.Object;
 
-import com.example.dr_info.model.transformator.DispatchTask;
-import com.example.dr_info.model.transformator.ObjectCategory;
-import com.example.dr_info.model.user.ObjectInfo;
-import com.example.dr_info.model.user.ObjectInfo_;
-import com.example.dr_info.repository.dispatch.DispatchTaskRepository;
-import com.example.dr_info.repository.dispatch.ObjectCategoryRepository;
+
+import com.example.dr_info.model.drInfo.ObjectInfo;
+import com.example.dr_info.model.transformator.ObjectSubscriber;
+import com.example.dr_info.repository.dispatch.ObjectSubscriberRepository;
 import com.example.dr_info.repository.drInfo.ObjectInfoRepository;
-import io.swagger.models.auth.In;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -33,9 +21,8 @@ import java.util.Objects;
 @AllArgsConstructor
 public class ObjectCategoryService {
 
-	private final ObjectCategoryRepository objectCategoryRepository;
-	private final DispatchTaskRepository dispatchTaskRepository;
 	private final ObjectInfoRepository objectInfoRepository;
+	private final ObjectSubscriberRepository objectSubscriberRepository;
 
 
 	public String roundHour(String hour) {
@@ -76,5 +63,9 @@ public class ObjectCategoryService {
 			objectInfo.setTurnOffDuration(Integer.toString(dur));
 		}
 		return objectInfo;
+	}
+
+	public List<ObjectSubscriber> getAllSubscriberByCustNumber(String custNumber) {
+		return objectSubscriberRepository.getAllSubByCustnumber(custNumber);
 	}
 }

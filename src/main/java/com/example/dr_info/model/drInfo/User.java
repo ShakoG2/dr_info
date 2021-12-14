@@ -1,4 +1,4 @@
-package com.example.dr_info.model.user;
+package com.example.dr_info.model.drInfo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

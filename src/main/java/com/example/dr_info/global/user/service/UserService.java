@@ -1,10 +1,9 @@
 package com.example.dr_info.global.user.service;
 
-import com.example.dr_info.model.user.User;
+import com.example.dr_info.model.drInfo.User;
 import com.example.dr_info.repository.drInfo.UserRepository;
 import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

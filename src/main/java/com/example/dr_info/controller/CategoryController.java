@@ -1,16 +1,15 @@
 package com.example.dr_info.controller;
 
 import com.example.dr_info.global.Object.ObjectCategoryService;
-import com.example.dr_info.model.transformator.ObjectCategory;
-import com.example.dr_info.model.user.ObjectInfo;
+import com.example.dr_info.model.drInfo.ObjectInfo;
+//import com.example.dr_info.model.transformator.ObjectSubscriber;
+import com.example.dr_info.model.transformator.ObjectSubscriber;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 
 @RestController
@@ -19,11 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class CategoryController {
 
 	private final ObjectCategoryService objectCategoryService;
-
-//	@GetMapping
-//	public List<ObjectCategory> get() {
-//		return objectCategoryService.getPreviousMonthData();
-//	}
 
 	@GetMapping
 	public Page<ObjectInfo> get(@RequestParam(required = false) Long taskId,
@@ -34,4 +28,11 @@ public class CategoryController {
 		return objectCategoryService.search(taskId, custNumber,
 											PageRequest.of(page - 1, limit));
 	}
+
+
+	@GetMapping("subscribers")
+	public List<ObjectSubscriber> getAllSubscriberByObjectCustNumber(@RequestParam String custNumber ){
+		return objectCategoryService.getAllSubscriberByCustNumber(custNumber);
+	}
+	
 }
