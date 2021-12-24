@@ -4,11 +4,9 @@ package com.example.dr_info.model.transformator;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -36,4 +34,16 @@ public class ObjectSubscriber {
 
 	@Column(name = "CUST_NUMBER")
 	private String custNumber;
+
+	@Transient
+	private Date reconnectedDate;
+
+	@Transient
+	private String reconnectedTime;
+
+	@Transient
+	private Date disconnectedDate;
+
+	@Transient
+	private String disconnectedTime;
 }

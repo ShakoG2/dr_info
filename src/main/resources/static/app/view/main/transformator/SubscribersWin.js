@@ -42,10 +42,6 @@ Ext.define('dr.view.main.transformator.SubscribersWin', {
 			text: 'ჩართვის დრო',
 			dataIndex: 'reconnectedTime',
 			flex: 1
-		}, {
-			text: 'გათიშვის ხანგრძლივობა',
-			dataIndex: 'turnOffDuration',
-			flex: 1
 		}],
 		bbar: {
 			xtype: 'pagingtoolbar',

@@ -8,11 +8,14 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface ObjectInfoRepository extends PagingAndSortingRepository<ObjectInfo, Long> {
 
 	Page<ObjectInfo> findAllByCustNumberAndActiveTrue(String custN, Pageable pageable);
+
+	Set<ObjectInfo> findAllByCustNumberAndActiveTrue(String custN);
 
 	Page<ObjectInfo> findAllByActiveTrue(Pageable pageable);
 

@@ -14,8 +14,10 @@ import org.springframework.util.StringUtils;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -66,6 +68,17 @@ public class ObjectCategoryService {
 	}
 
 	public List<ObjectSubscriber> getAllSubscriberByCustNumber(String custNumber) {
-		return objectSubscriberRepository.getAllSubByCustnumber(custNumber);
+		List<ObjectSubscriber> subscribers = objectSubscriberRepository.getAllSubByCustnumber(custNumber);
+		subscribers
+				.forEach(subscriber -> {
+					List<ObjectSubscriber> objectSubscribers = new ArrayList<>();
+					Set<ObjectInfo> transformators = objectInfoRepository.findAllByCustNumberAndActiveTrue(custNumber);
+					subscriber.setDisconnectedDate(transformators.iterator().next().getDisconnectedDate());
+					subscriber.setDisconnectedTime(transformators.iterator().next().getDisconnectedTime());
+					subscriber.setReconnectedDate(transformators.iterator().next().getReconnectedDate());
+					subscriber.setReconnectedTime(transformators.iterator().next().getReconnectedTime());
+				});
+
+		return subscribers;
 	}
 }

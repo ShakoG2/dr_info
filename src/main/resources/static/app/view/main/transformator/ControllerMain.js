@@ -2,7 +2,6 @@ Ext.define('dr.view.main.transformator.ControllerMain', {
 	extend: 'Ext.app.ViewController',
 
 	searChTransformators: function () {
-
 		const me = this;
 		const grid = me.lookup('transformatorGrid');
 		grid.getStore().loadPage(1, {
@@ -31,7 +30,7 @@ Ext.define('dr.view.main.transformator.ControllerMain', {
 		const store = me.lookup('subscribesGrid').getStore();
 		const win = me.lookup('subscribeWindow');
 		const view = me.getView();
-		view.setLoading(true);
+		win.setLoading(true);
 		Ext.Ajax.request({
 			method: 'GET',
 			url: 'category/subscribers',
@@ -41,7 +40,7 @@ Ext.define('dr.view.main.transformator.ControllerMain', {
 			success: function (res) {
 				let subscribers = Ext.JSON.decode(res.responseText)
 				store.loadData(subscribers);
-				view.setLoading(false)
+				win.setLoading(false)
 			}
 		})
 	},
