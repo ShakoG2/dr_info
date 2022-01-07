@@ -21,7 +21,7 @@ public class ObjectInfo {
 	@Column(name = "task_id")
 	private Long taskId;
 
-	@Column(name = "cust_number")
+	@Column(name = "customerNumber")
 	private String custNumber;
 
 	@Column(name = "disconnected_date")

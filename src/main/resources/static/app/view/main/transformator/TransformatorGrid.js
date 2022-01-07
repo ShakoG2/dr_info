@@ -5,6 +5,18 @@ Ext.define('dr.view.main.transformator.TransformatorGrid', {
 		xclass: 'dr.store.transformator.Transformator',
 		autoLoad: true
 	},
+	tbar: [{
+		text: 'ჩატვირთვა',
+		handler: function () {
+			Ext.Ajax.request({
+				method: 'POST',
+				url: 'category/load-transformators',
+				success: function () {
+					console.log("success")
+				}
+			})
+		}
+	}],
 	columns: [{
 		text: "დავალება",
 		dataIndex: 'taskId',
@@ -38,8 +50,8 @@ Ext.define('dr.view.main.transformator.TransformatorGrid', {
 		dataIndex: 'turnOffDuration',
 		flex: 1
 	}],
-	listeners:{
-		itemdblclick:'showTransformerSubscribers'
+	listeners: {
+		itemdblclick: 'showTransformerSubscribers'
 	},
 	bbar: {
 		xtype: 'pagingtoolbar',
