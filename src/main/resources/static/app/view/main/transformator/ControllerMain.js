@@ -49,5 +49,33 @@ Ext.define('dr.view.main.transformator.ControllerMain', {
 		const me = this;
 		const win = me.lookup('subscribeWindow');
 		win.close()
+	},
+
+	loadDataWithYearAndMonth: function () {
+		const me = this;
+		let year = me.lookup('yearField').getValue()
+		let month = me.lookup('monthField').getValue()
+		let view = me.getView();
+		if (!year || !month) {
+			Ext.alert("წლის და თვის ველი სავალდებულოა!");
+			return;
+		}
+		view.setLoading(true);
+		Ext.Ajax.request({
+			method: 'POST',
+			params: {
+				year: year,
+				month: month
+			},
+			url: 'category/load-transformators',
+			success: function () {
+				view.setLoading(false)
+				Ext.Msg.alert('შეტყობინება!', 'მონაცემები წარმატებით ჩაიტვირთა 🥳')
+			},
+			// failure: function () {
+			// 	view.setLoading(false)
+			// 	Ext.Msg.alert('შეტყობინება!', 'მონაცემები ჩატვირთვა ვერ მოხერხდა ')
+			// }
+		})
 	}
 })

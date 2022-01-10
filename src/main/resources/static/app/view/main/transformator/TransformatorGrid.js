@@ -3,20 +3,23 @@ Ext.define('dr.view.main.transformator.TransformatorGrid', {
 
 	store: {
 		xclass: 'dr.store.transformator.Transformator',
-		autoLoad: true
+		//autoLoad: true
 	},
 	tbar: [{
+		xtype: 'numberfield',
+		name: 'year',
+		emptyText: 'წელი',
+		reference: 'yearField'
+	}, {
+		xtype: 'numberfield',
+		emptyText: 'თვე',
+		name: 'year',
+		reference: 'monthField'
+	}, {
 		text: 'ჩატვირთვა',
-		handler: function () {
-			Ext.Ajax.request({
-				method: 'POST',
-				url: 'category/load-transformators',
-				success: function () {
-					console.log("success")
-				}
-			})
-		}
-	}],
+		handler: 'loadDataWithYearAndMonth'
+	}
+	],
 	columns: [{
 		text: "დავალება",
 		dataIndex: 'taskId',

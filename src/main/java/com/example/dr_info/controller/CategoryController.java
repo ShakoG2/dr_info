@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 
@@ -19,7 +20,6 @@ import java.util.List;
 public class CategoryController {
 
 	private final ObjectCategoryService objectCategoryService;
-	private final ObjectCategoryRepository objectCategoryRepository;
 
 	@GetMapping
 	public Page<ObjectInfo> get(@RequestParam(required = false) Long taskId,
@@ -39,8 +39,8 @@ public class CategoryController {
 	}
 
 	@PostMapping("load-transformators")
-	public void loadTransformators() {
-		objectCategoryService.exportData();
+	public void loadTransformators(@RequestParam Integer year, @RequestParam Integer month) throws ParseException {
+		objectCategoryService.exportData(year, month);
 	}
 
 }

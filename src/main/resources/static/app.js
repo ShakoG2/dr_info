@@ -1,36 +1,36 @@
 window.dr = window.dr || {}
 
-Ext.Ajax.on({
-	beforerequest: function (conn, request) {
-		request.url = request.url.replace('//', '/');
-	},
-
-	requestexception: function (req, resp, options) {
-		if (resp.timedout) {
-			Ext.Msg.alert('შეცდომა', resp.statusText);
-		} else if (resp.status === 401) {
+Ext.Ajax.on('requestexception', function (conn, response, options, eOpts) {
+	switch (response.status) {
+		case 302 : {
+			alert("302");
+			window.open("/login");
+			break;
+		}
+		case 400 : {
+			Ext.Msg.alert('შეცდომა', 'მონაცემების შენახვის შეცდომა - ' + ' ' + 'status: ' + response.status);
+			break;
+		}
+		case 403 : {
+			process403Error(options);
+			break;
+		}
+		case 401 : {
 			if (!dr.loginWindow) {
 				dr.loginWindow = Ext.create('dr.view.login.Login');
 			}
-		} else if (resp.status === 403) {
-			//process403Error(options);
-		} else if (resp.status === 503) {
-
-		} else {
-			try {
-				if (options.alert !== false) {
-					let error = Ext.decode(resp.responseText);
-					Ext.Msg.alert('შეცდომა', error.message);
-				}
-			} catch (e) {
-				console.warn(resp.responseText);
-			}
+			break;
 		}
-	},
-
-	requestcomplete: function (conn, resp) {
+		case 500 : {
+			let errMsg = '';
+			debugger
+			if (response.responseJson) errMsg = response.responseJson.message;
+			else errMsg = JSON.parse(response.responseText).message;
+			Ext.Msg.alert('შეცდომა', errMsg + ' ' + 'status: ' + response.status);
+			break;
+		}
 	}
-});
+}, this);
 
 Ext.application({
 	name: 'dr',

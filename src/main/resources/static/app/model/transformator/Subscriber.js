@@ -5,10 +5,10 @@ Ext.define('dr.model.transformator.Subscriber', {
 	proxy: {
 		type: 'rest',
 		url: 'category/subscribers',
-		reader: {
-			rootProperty: 'content',
-			totalProperty: 'totalElements'
-		},
+		// reader: {
+		// 	rootProperty: 'content',
+		// 	totalProperty: 'totalElements'
+		// },
 		writer: {
 			writeAllFields: true,
 			writeRecordId: false

@@ -10,6 +10,7 @@ Ext.define('dr.view.main.transformator.SubscribersWin', {
 
 	items: [{
 		xtype: 'grid',
+		height: 800,
 		store: {
 			xclass: 'dr.store.transformator.Subscribers'
 		},
@@ -43,10 +44,6 @@ Ext.define('dr.view.main.transformator.SubscribersWin', {
 			dataIndex: 'reconnectedTime',
 			flex: 1
 		}],
-		bbar: {
-			xtype: 'pagingtoolbar',
-			displayInfo: true
-		},
 	}],
 
 	buttons: [{
