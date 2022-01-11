@@ -56,8 +56,8 @@ Ext.define('dr.view.main.transformator.TransformatorGrid', {
 	listeners: {
 		itemdblclick: 'showTransformerSubscribers'
 	},
-	bbar: {
-		xtype: 'pagingtoolbar',
-		displayInfo: true
-	},
+	// bbar: {
+	// 	xtype: 'pagingtoolbar',
+	// 	displayInfo: true
+	// },
 })

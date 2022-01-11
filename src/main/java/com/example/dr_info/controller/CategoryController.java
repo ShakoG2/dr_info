@@ -22,13 +22,15 @@ public class CategoryController {
 	private final ObjectCategoryService objectCategoryService;
 
 	@GetMapping
-	public Page<ObjectInfo> get(@RequestParam(required = false) Long taskId,
+	public List<ObjectInfo> get(@RequestParam(required = false) Long taskId,
 								@RequestParam(required = false) String custNumber,
+								@RequestParam(required = false) Integer year,
+								@RequestParam(required = false) Integer month,
 								@RequestParam(required = false, defaultValue = "0") Integer start,
 								@RequestParam(required = false, defaultValue = "1") Integer page,
-								@RequestParam(required = false, defaultValue = "100") Integer limit) {
+								@RequestParam(required = false, defaultValue = "100") Integer limit) throws ParseException {
 
-		return objectCategoryService.search(taskId, custNumber,
+		return objectCategoryService.search(taskId, custNumber, year,month,
 											PageRequest.of(page - 1, limit));
 	}
 

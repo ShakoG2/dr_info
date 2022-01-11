@@ -4,8 +4,17 @@ Ext.define('dr.view.main.transformator.ControllerMain', {
 	searChTransformators: function () {
 		const me = this;
 		const grid = me.lookup('transformatorGrid');
+		const params = me.lookup('tSearchForm').getValues();
+		let year = me.lookup('yearField').getValue()
+		let month = me.lookup('monthField').getValue()
+		params.year = year;
+		params.month = month;
+		if(!year || !month){
+			Ext.Msg.alert('შეტყობინება!',"წლის და თვის ველი სავალდებულოა!");
+			return;
+		}
 		grid.getStore().loadPage(1, {
-			params: me.lookup('tSearchForm').getValues()
+			params: params
 		})
 	},
 
@@ -57,7 +66,7 @@ Ext.define('dr.view.main.transformator.ControllerMain', {
 		let month = me.lookup('monthField').getValue()
 		let view = me.getView();
 		if (!year || !month) {
-			Ext.alert("წლის და თვის ველი სავალდებულოა!");
+			Ext.Msg.alert('შეტყობინება!',"წლის და თვის ველი სავალდებულოა!");
 			return;
 		}
 		view.setLoading(true);

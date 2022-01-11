@@ -8,6 +8,8 @@ import com.example.dr_info.repository.dispatch.ObjectSubscriberRepository;
 import com.example.dr_info.repository.drInfo.ObjectInfoRepository;
 import io.swagger.models.auth.In;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +27,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -32,7 +35,7 @@ public class ObjectCategoryService {
 
 	private final ObjectInfoRepository objectInfoRepository;
 	private final ObjectSubscriberRepository objectSubscriberRepository;
-//	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MMM/dd");
+	//	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MMM/dd");
 
 	public Date getFirstDateToMonth(int year, int month) {
 		return generateDate(year, month, 1);
@@ -102,19 +105,26 @@ public class ObjectCategoryService {
 		return dtf.format(localDateTime);
 	}
 
-	public Page<ObjectInfo> search(Long taskId, String custNumber, Pageable pageable) {
+	public List<ObjectInfo> search(Long taskId,
+								   String custNumber,
+								   Integer year,
+								   Integer month,
+								   Pageable pageable) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date dateFrom = new SimpleDateFormat("yyyy-MM-dd").parse(sdf.format(getFirstDateToMonth(year, month)));
+		Date dateTo = new SimpleDateFormat("yyyy-MM-dd").parse(sdf.format(getLastDateToMonth(year, month)));
 
 		if (StringUtils.hasText(custNumber) && taskId != null) {
-			return objectInfoRepository.findAllByTaskIdAndCustNumberAndActiveTrue(taskId, custNumber, pageable);
+			return objectInfoRepository.findAllByTaskIdAndCustNumberAndActiveTrueAndDisconnectedDateGreaterThanEqualAndReconnectedDateLessThanEqual(taskId, custNumber, dateFrom, dateTo);
 		}
 
 		if (StringUtils.hasText(custNumber))
-			return objectInfoRepository.findAllByCustNumberAndActiveTrue(custNumber, pageable).map(this::calculateDuration);
+			return objectInfoRepository.findAllByCustNumberAndActiveTrueAndDisconnectedDateGreaterThanEqualAndReconnectedDateLessThanEqual(custNumber, dateFrom, dateTo).stream().map(this::calculateDuration).collect(Collectors.toList());
 
 		if (taskId != null)
-			return objectInfoRepository.findAllByTaskIdAndActiveTrue(taskId, pageable).map(this::calculateDuration);
+			return objectInfoRepository.findAllByTaskIdAndActiveTrueAndDisconnectedDateGreaterThanEqualAndReconnectedDateLessThanEqual(taskId, dateFrom, dateTo).stream().map(this::calculateDuration).collect(Collectors.toList());
 
-		return objectInfoRepository.findAllByActiveTrue(pageable).map(this::calculateDuration);
+		return objectInfoRepository.findAllByActiveTrueAndDisconnectedDateGreaterThanEqualAndReconnectedDateLessThanEqual(dateFrom, dateTo).stream().map(this::calculateDuration).collect(Collectors.toList());
 	}
 
 	public ObjectInfo calculateDuration(ObjectInfo objectInfo) {

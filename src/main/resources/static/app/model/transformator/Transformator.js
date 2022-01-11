@@ -17,10 +17,10 @@ Ext.define('dr.model.transformator.Transformator', {
 	proxy: {
 		type: 'rest',
 		url: 'category',
-		reader: {
-			rootProperty: 'content',
-			totalProperty: 'totalElements'
-		},
+		// reader: {
+		// 	rootProperty: 'content',
+		// 	totalProperty: 'totalElements'
+		// },
 		writer: {
 			writeAllFields: true,
 			writeRecordId: false

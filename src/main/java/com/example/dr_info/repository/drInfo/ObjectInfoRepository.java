@@ -2,9 +2,8 @@ package com.example.dr_info.repository.drInfo;
 
 import com.example.dr_info.model.drInfo.ObjectInfo;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -12,13 +11,13 @@ import java.util.List;
 import java.util.Set;
 
 @Repository
-public interface ObjectInfoRepository extends PagingAndSortingRepository<ObjectInfo, Long> {
+public interface ObjectInfoRepository extends JpaRepository<ObjectInfo, Long> {
 
-	Page<ObjectInfo> findAllByCustNumberAndActiveTrue(String custN, Pageable pageable);
+	List<ObjectInfo> findAllByCustNumberAndActiveTrueAndDisconnectedDateGreaterThanEqualAndReconnectedDateLessThanEqual( String custN,Date dateFrom, Date dateTo);
 
 	Set<ObjectInfo> findAllByCustNumberAndActiveTrue(String custN);
 
-	Page<ObjectInfo> findAllByActiveTrue(Pageable pageable);
+	List<ObjectInfo> findAllByActiveTrueAndDisconnectedDateGreaterThanEqualAndReconnectedDateLessThanEqual(Date dateFrom, Date dateTo);
 
 	@Query("SELECT o FROM ObjectInfo o WHERE o.active = true")
 	List<ObjectInfo> findAllActive();
@@ -32,8 +31,8 @@ public interface ObjectInfoRepository extends PagingAndSortingRepository<ObjectI
 //	@Query("SELECT o FROM ObjectInfo o WHERE o.active = true AND O.custNumber = :custNumber")
 //	List<ObjectInfo> getAllActiveObjectByCustNumber(String custNumber);
 
-	Page<ObjectInfo> findAllByTaskIdAndCustNumberAndActiveTrue(Long taskId, String custN, Pageable pageable);
+	List<ObjectInfo> findAllByTaskIdAndCustNumberAndActiveTrueAndDisconnectedDateGreaterThanEqualAndReconnectedDateLessThanEqual(Long taskId, String custN, Date dateFrom, Date dateTo);
 
 
-	Page<ObjectInfo> findAllByTaskIdAndActiveTrue(Long taskId, Pageable pageable);
+	List<ObjectInfo> findAllByTaskIdAndActiveTrueAndDisconnectedDateGreaterThanEqualAndReconnectedDateLessThanEqual(Long taskId, Date dateFrom, Date dateTo);
 }
